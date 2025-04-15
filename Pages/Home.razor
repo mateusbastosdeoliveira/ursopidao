@@ -1,0 +1,14 @@
+﻿@page "/"
+
+<PageTitle>Home</PageTitle>
+
+
+@if(pgPedido == true){
+	<Pedido/>
+}
+
+@code{
+	public bool pgPedido = true;
+
+}
+
