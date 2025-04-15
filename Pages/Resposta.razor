@@ -1,0 +1,31 @@
+﻿<div style="display:flex; justify-content:center; width:100%;">
+	<MudImage Src="images/goku.gif" Width="332" Height="250" Alt="Goku" Elevation="25" Class="rounded-lg ma-4" />
+</div>
+
+<div style="display:flex; justify-content:center; width:100%;">
+	<h1>Muito obrigado, chefe <MudIcon Icon="@Icons.Material.Filled.Favorite" Title="Favorite" /></h1>
+</div>
+
+<div style="display:flex; justify-content:center; width:100%;">
+	<ul style="list-style:none;">
+		<li style=" display:flex; justify-content:center; width:100%; align-items:center;"><MudCheckBox @bind-Value="@setado" Size="Size.Large" Color="Color.Tertiary" ReadOnly></MudCheckBox> Produtividade @numeroProgresso %</li>
+		<li style=" display:flex; justify-content:center; width:100%; align-items:center; display:none;"><MudCheckBox @bind-Value="@setado" Size="Size.Large" Color="Color.Tertiary" ReadOnly></MudCheckBox> Sem reclamações</li>
+	</ul>
+</div>
+
+
+
+
+@code {
+	public bool setado = true;
+	public int numeroProgresso = 0;
+
+	protected override async Task OnInitializedAsync()
+	{
+		for(var np =0; np <=75; np++){
+			numeroProgresso = np;
+			StateHasChanged();
+			await Task.Delay(100);
+		}
+	}
+}

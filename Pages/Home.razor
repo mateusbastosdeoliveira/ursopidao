@@ -4,11 +4,63 @@
 
 
 @if(pgPedido == true){
-	<Pedido/>
+	<div style="display:flex; justify-content:center; width:100%;">
+		<MudImage Src="ursopidao.png" Width="332" Height="250" Alt="Swedish Farm House" Elevation="25" Class="rounded-lg ma-4" />
+	</div>
+
+	<div style="display:flex; justify-content:center; width:100%;">
+		<h1>Olá, chefe</h1>
+	</div>
+
+	<div style="display:flex; justify-content:center; width:100%;">
+		<h2>Poderia me dar um aumento?</h2>
+	</div>
+	<br />
+	<div style="display:flex; justify-content:space-evenly; width:100%;flex-direction:row;">
+		<MudButton Variant="Variant.Filled" Color="Color.Success" OnClick="funcBtnSim">@txtBtnSim</MudButton>
+		<MudButton Variant="Variant.Filled" Color="@corBtnNao" OnClick="funcBtnNao">@txtBtnNao</MudButton>
+	</div>
+
+}
+
+@if (pgResposta == true)
+{
+	<Resposta/>
 }
 
 @code{
-	public bool pgPedido = true;
+	public static bool pgPedido = true;
+	public static bool pgResposta = false;
+
+	public string txtBtnSim = "SIM";
+	public string txtBtnNao = "NÃO";
+
+
+	MudBlazor.Color corBtnNao = MudBlazor.Color.Secondary;
+
+	public void funcBtnSim()
+	{
+		Home.pgPedido = false;
+		Home.pgResposta = true;
+		StateHasChanged();
+	}
+
+	public void funcBtnNao()
+	{
+
+		if (txtBtnNao == "NÃO")
+		{
+			txtBtnNao = "YES";
+			corBtnNao = MudBlazor.Color.Success;
+			
+		}
+
+		else if(txtBtnNao == "YES"){
+			Home.pgPedido = false;
+			Home.pgResposta = true;
+		}
+	}
+
 
 }
 
