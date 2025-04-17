@@ -1,31 +1,97 @@
-﻿<div style="display:flex; justify-content:center; width:100%;">
+﻿@inject NavigationManager Navigation
+
+
+<div style="display:flex; justify-content:center; width:100%;">
 	<MudImage Src="goku.gif" Width="332" Height="250" Alt="Goku" Elevation="25" Class="rounded-lg ma-4" />
 </div>
 
 <div style="display:flex; justify-content:center; width:100%;">
-	<h1>Muito obrigado, chefe <MudIcon Icon="@Icons.Material.Filled.Favorite" Title="Favorite" /></h1>
+
+	<MudText Typo="Typo.h4">Muito obrigado, chefe</MudText>
+	<MudIcon Icon="@Icons.Material.Filled.Favorite" Title="Favorite"/>
+
 </div>
 
 <div style="display:flex; justify-content:center; width:100%;">
-	<ul style="list-style:none;">
-		<li style=" display:flex; justify-content:center; width:100%; align-items:center;"><MudCheckBox @bind-Value="@setado" Size="Size.Large" Color="Color.Tertiary" ReadOnly></MudCheckBox> Produtividade @numeroProgresso %</li>
-		<li style=" display:flex; justify-content:center; width:100%; align-items:center; display:none;"><MudCheckBox @bind-Value="@setado" Size="Size.Large" Color="Color.Tertiary" ReadOnly></MudCheckBox> Sem reclamações</li>
+	<ul style="list-style:none;display:flex; align-items:center; width:100%;flex-direction:column;">
+		<li style="width:100%;display:flex;justify-content:center;align-items:center;"<MudCheckBox @bind-Value="@setadoProdutividade" Size="Size.Large" Color="Color.Tertiary" ReadOnly></MudCheckBox> Produtividade @numeroProgresso %</li>
+		@if (visualizacaoReclamacao == "")
+		{
+			<li Visible=false style="width:100%;display:flex;justify-content:center;align-items:center;"><MudCheckBox @bind-Value="@setadoReclamacao" Size="Size.Large" Color="Color.Tertiary" ReadOnly></MudCheckBox> Sem reclamações</li>
+		}
+		@if (visualizacaoBomdia == "")
+		{
+			<li style="width:100%;display:flex;justify-content:center;align-items:center;"><MudCheckBox @bind-Value="@setadoBomdia" Size="Size.Large" Color="Color.Tertiary" ReadOnly></MudCheckBox> Dar bom dia</li>
+		}
+		@if (visualizacaoSorriso == "")
+		{
+			<li style="width:100%;display:flex;justify-content:center;align-items:center;"><MudCheckBox @bind-Value="@setadoSorriso" Size="Size.Large" Color="Color.Tertiary" ReadOnly></MudCheckBox> Sorrir mais</li>
+		}
+
 	</ul>
 </div>
 
+<br />
+
+<div style="display:flex; justify-content:center; width:100%;">
+	<MudButton Variant="Variant.Filled" Color="Color.Primary" OnClick="funcaVoltar" Disabled="@statusBtnVoltar">VOLTAR</MudButton>
+</div>
 
 
 
 @code {
-	public bool setado = true;
+	public bool setadoProdutividade = true;
+	public bool setadoReclamacao = false;
+	public bool setadoBomdia = false;
+	public bool setadoSorriso = false;
+	public bool statusBtnVoltar = true;
+
 	public int numeroProgresso = 0;
+
+	public string visualizacaoReclamacao = "none";
+	public string visualizacaoBomdia = "none";
+	public string visualizacaoSorriso = "none";
+
 
 	protected override async Task OnInitializedAsync()
 	{
-		for(var np =0; np <=75; np++){
+		for(var np =0; np <=50; np++){
 			numeroProgresso = np;
 			StateHasChanged();
 			await Task.Delay(100);
+
+			if(numeroProgresso == 30){
+				await Task.Delay(100);
+				visualizacaoReclamacao = "";
+
+			}
+
+			if (visualizacaoReclamacao == "")
+			{
+				await Task.Delay(200);
+				visualizacaoBomdia = "";
+				StateHasChanged();
+
+			}
+
+			if (visualizacaoBomdia == "")
+			{
+				await Task.Delay(300);
+				visualizacaoSorriso = "";
+				StateHasChanged();
+
+			}
+
+
 		}
+
+		setadoReclamacao = true;
+		setadoBomdia = true;
+		setadoSorriso = true;
+		statusBtnVoltar = false;
+	}
+
+	public void funcaVoltar(){
+		Navigation.NavigateTo(Navigation.Uri, forceLoad: true);
 	}
 }
